@@ -4,19 +4,23 @@ import com.feedeo.hipchat.constant.room.message.Color;
 import com.feedeo.hipchat.exception.room.message.UnableToSendMessageToRoomException;
 import com.feedeo.hipchat.model.room.Room;
 import com.feedeo.hipchat.model.room.message.Message;
-import com.feedeo.hipchat.web.client.HipChatRestClient;
+import com.feedeo.hipchat.web.client.HipChatClient;
 import com.google.common.base.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class RoomService {
-    private HipChatRestClient hipChatClient;
+    private HipChatClient hipChatClient;
 
     private final static int HIPCHAT_API_ROOM_MESSAGE_FROM_MIN_LENGTH = 1;
     private final static int HIPCHAT_API_ROOM_MESSAGE_FROM_MAX_LENGTH = 15;
     private final static int HIPCHAT_API_ROOM_MESSAGE_MIN_LENGTH = 1;
     private final static int HIPCHAT_API_ROOM_MESSAGE_MAX_LENGTH = 10000;
+
+    public RoomService(HipChatClient hipChatClient) {
+        this.hipChatClient = hipChatClient;
+    }
 
     public void sendMessage(Room room, Message message) throws UnableToSendMessageToRoomException {
         // required fields
@@ -41,9 +45,5 @@ public class RoomService {
         message.setColor(Optional.fromNullable(message.getColor()).or(Color.YELLOW));
 
         hipChatClient.sendMessageToRoom(room, message);
-    }
-
-    public void setHipChatClient(HipChatRestClient hipChatClient) {
-        this.hipChatClient = hipChatClient;
     }
 }

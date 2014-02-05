@@ -1,4 +1,4 @@
-package com.feedeo.hipchat.web.client;
+package com.feedeo.hipchat.web.client.rest;
 
 import com.feedeo.hipchat.constant.room.message.Color;
 import com.feedeo.hipchat.exception.room.message.UnableToSendMessageToRoomException;
@@ -60,12 +60,13 @@ public class HipChatRestClientIntegrationTest {
         target = new HipChatRestClient();
         target.setApiKey(apiKey);
 
-        server = MockRestServiceServer.createServer(target.getRestTemplate());
+        server = MockRestServiceServer.createServer(target.getHipChatRestTemplate().getRestTemplate());
     }
 
     @Test
     public void shouldSendMessageToRoom() throws UnableToSendMessageToRoomException {
-        server.expect(requestTo(target.getHipchatApiBaseUrl() + "rooms/message?format=" + target.getHipchatApiFormat() + "&auth_token=" + apiKey))
+        server.expect(requestTo(target.getHipChatRestTemplate().getHipchatApiBaseUrl() +
+                "rooms/message?format=" + target.getHipChatRestTemplate().getHipchatApiFormat() + "&auth_token=" + apiKey))
                 .andExpect(method(HttpMethod.POST))
                 .andExpect(content().contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(content().string(
@@ -85,7 +86,8 @@ public class HipChatRestClientIntegrationTest {
 
     @Test(expected = UnableToSendMessageToRoomException.class)
     public void shouldThrowUnableToSendMessageToRoomWhenServerError() throws UnableToSendMessageToRoomException {
-        server.expect(requestTo(target.getHipchatApiBaseUrl() + "rooms/message?format=" + target.getHipchatApiFormat() + "&auth_token=" + apiKey))
+        server.expect(requestTo(target.getHipChatRestTemplate().getHipchatApiBaseUrl() + "rooms/message?format="
+                + target.getHipChatRestTemplate().getHipchatApiFormat() + "&auth_token=" + apiKey))
                 .andRespond(withStatus(HttpStatus.INTERNAL_SERVER_ERROR));
 
         try {
@@ -101,8 +103,10 @@ public class HipChatRestClientIntegrationTest {
 
     @Test(expected = UnableToSendMessageToRoomException.class)
     public void shouldThrowUnableToSendMessageToRoomWhenClientError() throws UnableToSendMessageToRoomException {
-        server.expect(requestTo(target.getHipchatApiBaseUrl() + "rooms/message?format=" + target.getHipchatApiFormat() + "&auth_token=" + apiKey))
-                .andRespond(withStatus(HttpStatus.UNAUTHORIZED).body("{\"error\":{\"code\":401,\"type\":\"Unauthorized\",\"message\":\"Auth token invalid. Please see: https:\\/\\/www.hipchat.com\\/docs\\/api\\/auth\"}}"));
+        server.expect(requestTo(target.getHipChatRestTemplate().getHipchatApiBaseUrl() + "rooms/message?format=" +
+                target.getHipChatRestTemplate().getHipchatApiFormat() + "&auth_token=" + apiKey))
+                .andRespond(withStatus(HttpStatus.UNAUTHORIZED)
+                        .body("{\"error\":{\"code\":401,\"type\":\"Unauthorized\",\"message\":\"Auth token invalid. Please see: https:\\/\\/www.hipchat.com\\/docs\\/api\\/auth\"}}"));
 
         try {
             target.sendMessageToRoom(room, message);
