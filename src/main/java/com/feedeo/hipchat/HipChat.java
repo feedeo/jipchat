@@ -18,8 +18,4 @@ public class HipChat {
     public RoomService getRoomService() {
         return roomService;
     }
-
-    public void setRoomService(RoomService roomService) {
-        this.roomService = roomService;
-    }
 }
