@@ -4,21 +4,21 @@ import com.feedeo.hipchat.constant.room.message.Color;
 import com.feedeo.hipchat.exception.room.message.UnableToSendMessageToRoomException;
 import com.feedeo.hipchat.model.room.Room;
 import com.feedeo.hipchat.model.room.message.Message;
-import com.feedeo.hipchat.web.client.HipChatClient;
+import com.feedeo.hipchat.web.client.HipChatWebClient;
 import com.google.common.base.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class RoomService {
-    private HipChatClient hipChatClient;
+    private HipChatWebClient hipChatClient;
 
     private final static int HIPCHAT_API_ROOM_MESSAGE_FROM_MIN_LENGTH = 1;
     private final static int HIPCHAT_API_ROOM_MESSAGE_FROM_MAX_LENGTH = 15;
     private final static int HIPCHAT_API_ROOM_MESSAGE_MIN_LENGTH = 1;
     private final static int HIPCHAT_API_ROOM_MESSAGE_MAX_LENGTH = 10000;
 
-    public RoomService(HipChatClient hipChatClient) {
+    public RoomService(HipChatWebClient hipChatClient) {
         this.hipChatClient = hipChatClient;
     }
 

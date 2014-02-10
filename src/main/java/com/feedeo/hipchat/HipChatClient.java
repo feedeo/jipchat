@@ -1,14 +1,14 @@
 package com.feedeo.hipchat;
 
 import com.feedeo.hipchat.service.room.RoomService;
-import com.feedeo.hipchat.web.client.HipChatClient;
+import com.feedeo.hipchat.web.client.HipChatWebClient;
 import com.feedeo.hipchat.web.client.rest.HipChatRestClient;
 
-public class HipChat {
-    private HipChatClient hipChatClient;
+public class HipChatClient {
+    private HipChatWebClient hipChatClient;
     private RoomService roomService;
 
-    public HipChat(String apiKey) {
+    public HipChatClient(String apiKey) {
         hipChatClient = new HipChatRestClient();
         hipChatClient.setApiKey(apiKey);
 

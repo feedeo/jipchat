@@ -3,7 +3,7 @@ package com.feedeo.hipchat.web.client.rest;
 import com.feedeo.hipchat.exception.room.message.UnableToSendMessageToRoomException;
 import com.feedeo.hipchat.model.room.Room;
 import com.feedeo.hipchat.model.room.message.Message;
-import com.feedeo.hipchat.web.client.HipChatClient;
+import com.feedeo.hipchat.web.client.HipChatWebClient;
 import com.feedeo.hipchat.web.message.HipChatErrorResponse;
 import com.feedeo.hipchat.web.message.HipChatResponse;
 import com.feedeo.hipchat.web.message.HipChatSuccessResponse;
@@ -12,7 +12,7 @@ import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
 
-public class HipChatRestClient implements HipChatClient {
+public class HipChatRestClient implements HipChatWebClient {
     private HipChatRestTemplate hipChatRestTemplate;
 
     private String apiKey;
