@@ -6,6 +6,7 @@ import com.feedeo.hipchat.web.message.HipChatResponse;
 import com.feedeo.hipchat.web.message.HipChatSuccessResponse;
 import com.google.common.collect.ImmutableMap;
 import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
@@ -18,7 +19,7 @@ public class HipChatRestTemplate {
     private RestTemplate restTemplate;
 
     private final static String HIPCHAT_API_FORMAT = "json";
-    private final static String HIPCHAT_API_BASE_URL = "http://api.hipchat.com/v1/";
+    private final static String HIPCHAT_API_BASE_URL = "https://api.hipchat.com/v1/";
 
     public HipChatRestTemplate() {
         restTemplate = new RestTemplate();
@@ -26,6 +27,7 @@ public class HipChatRestTemplate {
         restTemplate.getMessageConverters().clear();
         restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
     }
 
     public HipChatResponse post(String apiKey, String resource, MultiValueMap map) throws IOException, RestClientException {
